@@ -2,17 +2,125 @@ console.log("Kick Unlocker: Content script loaded (v20.0 - Instant Zap)");
 
 let activeHls = null;
 let isUnlocking = false;
+let latestReleasePromise = null;
+let activePlayerUi = null;
+let globalPlayerListenersBound = false;
 
 // --- SVG ICONS ---
 const ICONS = {
     play: `<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><path d="M8 5v14l11-7z"/></svg>`,
     pause: `<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`,
     maximize: `<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>`,
-    settings: `<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L5.09 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.58 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>`
+    settings: `<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L5.09 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.58 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>`,
+    update: `<svg width="98" height="96" viewBox="0 0 98 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;"><g clip-path="url(#clip0_730_27136)"><path d="M41.4395 69.3848C28.8066 67.8535 19.9062 58.7617 19.9062 46.9902C19.9062 42.2051 21.6289 37.0371 24.5 33.5918C23.2559 30.4336 23.4473 23.7344 24.8828 20.959C28.7109 20.4805 33.8789 22.4902 36.9414 25.2656C40.5781 24.1172 44.4062 23.543 49.0957 23.543C53.7852 23.543 57.6133 24.1172 61.0586 25.1699C64.0254 22.4902 69.2891 20.4805 73.1172 20.959C74.457 23.543 74.6484 30.2422 73.4043 33.4961C76.4668 37.1328 78.0937 42.0137 78.0937 46.9902C78.0937 58.7617 69.1934 67.6621 56.3691 69.2891C59.623 71.3945 61.8242 75.9883 61.8242 81.252L61.8242 91.2051C61.8242 94.0762 64.2168 95.7031 67.0879 94.5547C84.4102 87.9512 98 70.6289 98 49.1914C98 22.1074 75.9883 6.69539e-07 48.9043 4.309e-07C21.8203 1.92261e-07 -1.9479e-07 22.1074 -4.3343e-07 49.1914C-6.20631e-07 70.4375 13.4941 88.0469 31.6777 94.6504C34.2617 95.6074 36.75 93.8848 36.75 91.3008L36.75 83.6445C35.4102 84.2188 33.6875 84.6016 32.1562 84.6016C25.8398 84.6016 22.1074 81.1563 19.4277 74.7441C18.375 72.1602 17.2266 70.6289 15.0254 70.3418C13.877 70.2461 13.4941 69.7676 13.4941 69.1934C13.4941 68.0449 15.4082 67.1836 17.3223 67.1836C20.0977 67.1836 22.4902 68.9063 24.9785 72.4473C26.8926 75.2227 28.9023 76.4668 31.2949 76.4668C33.6875 76.4668 35.2187 75.6055 37.4199 73.4043C39.0469 71.7773 40.291 70.3418 41.4395 69.3848Z" fill="white"/></g><defs><clipPath id="clip0_730_27136"><rect width="98" height="96" fill="white"/></clipPath></defs></svg>`,
+    bigPlay: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;width:40px;height:40px;"><path fill="none" d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>`,
+    backward: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path d="M12 6a2 2 0 0 0-3.414-1.414l-6 6a2 2 0 0 0 0 2.828l6 6A2 2 0 0 0 12 18z"/><path d="M22 6a2 2 0 0 0-3.414-1.414l-6 6a2 2 0 0 0 0 2.828l6 6A2 2 0 0 0 22 18z"/></svg>`,
+    forward: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path d="M12 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 12 18z"/><path d="M2 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 2 18z"/></svg>`
 };
 
 function getResumeKey(channelSlug, videoSlug) {
     return `kick_unlocker_resume:${channelSlug}:${videoSlug}`;
+}
+
+function getPlayerSettingsKey(channelSlug, videoSlug) {
+    return `kick_unlocker_settings:${channelSlug}:${videoSlug}`;
+}
+
+function loadPlayerSettings(settingsKey) {
+    try {
+        const raw = localStorage.getItem(settingsKey);
+        return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function savePlayerSettings(settingsKey, partialSettings) {
+    const currentSettings = loadPlayerSettings(settingsKey);
+    localStorage.setItem(settingsKey, JSON.stringify({
+        ...currentSettings,
+        ...partialSettings
+    }));
+}
+
+function normalizeVersion(version) {
+    return String(version || '')
+        .trim()
+        .replace(/^v/i, '')
+        .split(/[^0-9]+/)
+        .filter(Boolean)
+        .map((part) => parseInt(part, 10));
+}
+
+function isVersionGreater(candidateVersion, currentVersion) {
+    const candidateParts = normalizeVersion(candidateVersion);
+    const currentParts = normalizeVersion(currentVersion);
+    const maxLength = Math.max(candidateParts.length, currentParts.length);
+
+    for (let index = 0; index < maxLength; index++) {
+        const candidate = candidateParts[index] || 0;
+        const current = currentParts[index] || 0;
+        if (candidate > current) return true;
+        if (candidate < current) return false;
+    }
+
+    return false;
+}
+
+function getLatestReleaseInfo() {
+    if (latestReleasePromise) return latestReleasePromise;
+
+    latestReleasePromise = new Promise((resolve) => {
+        chrome.runtime.sendMessage({ action: 'GET_LATEST_RELEASE' }, (response) => {
+            if (chrome.runtime.lastError) {
+                resolve(null);
+                return;
+            }
+
+            const release = response?.release;
+            const currentVersion = chrome.runtime.getManifest().version;
+
+            if (release?.tagName && release?.htmlUrl && isVersionGreater(release.tagName, currentVersion)) {
+                resolve(release);
+                return;
+            }
+
+            resolve(null);
+        });
+    });
+
+    return latestReleasePromise;
+}
+
+function bindGlobalPlayerListeners() {
+    if (globalPlayerListenersBound) return;
+
+    document.addEventListener('click', (event) => {
+        const qualWrap = activePlayerUi?.qualWrap;
+        if (!qualWrap || !qualWrap.isConnected) return;
+        if (!qualWrap.contains(event.target)) qualWrap.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', (event) => {
+        const playerUi = activePlayerUi;
+        const videoElement = playerUi?.vid;
+        if (!videoElement || !videoElement.isConnected || !isFinite(videoElement.duration)) return;
+
+        const target = event.target;
+        const tagName = target?.tagName;
+        if (target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(tagName)) return;
+
+        if (event.key === 'ArrowRight') {
+            videoElement.currentTime = Math.min(videoElement.currentTime + 5, videoElement.duration);
+            playerUi.showSeekIndicator('forward');
+        }
+        else if (event.key === 'ArrowLeft') {
+            videoElement.currentTime = Math.max(videoElement.currentTime - 5, 0);
+            playerUi.showSeekIndicator('backward');
+        }
+    });
+
+    globalPlayerListenersBound = true;
 }
 
 function checkStreamUrl(url) {
@@ -222,8 +330,10 @@ async function unlockVideo(triggerElement) {
         const pathParts = window.location.pathname.split('/').filter(Boolean);
         let channelSlug = pathParts[0];
         let videoSlug = pathParts[2];
-        const resumeKey = getResumeKey(channelSlug, videoSlug);
         if (!videoSlug && pathParts[1] === 'video') videoSlug = pathParts[2];
+        const resumeKey = getResumeKey(channelSlug, videoSlug);
+        const playerSettingsKey = getPlayerSettingsKey(channelSlug, videoSlug);
+        const savedPlayerSettings = loadPlayerSettings(playerSettingsKey);
 
         const result = await getVideoMetadata(channelSlug, videoSlug);
         if (!result) return; // Silent fail or keep deleted
@@ -266,7 +376,8 @@ async function unlockVideo(triggerElement) {
             <div id="k-player" style="width:100%;height:100%;position:relative;background:black;overflow:hidden;font-family:Inter,sans-serif;">
                 <video id="k-video" playsinline style="width:100%;height:100%;object-fit:contain;"></video>
                 <div id="k-controls" style="position:absolute;bottom:0;left:0;width:100%;padding:20px 15px 10px 15px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);display:flex;flex-direction:column;opacity:0;transition:opacity 0.2s;">
-                    <div id="k-track" style="width:100%;height:5px;background:rgba(255,255,255,0.3);cursor:pointer;position:relative;margin-bottom:10px;border-radius:2px;">
+                    <div id="k-track" style="width:100%;height:5px;padding:8px 0;background:rgba(255,255,255,0.3);background-clip:content-box;box-sizing:content-box;cursor:pointer;position:relative;margin-bottom:4px;border-radius:2px;">
+                        <div id="k-track-tooltip"></div>
                          <div id="k-progress" style="width:0%;height:100%;background:#53fc18;position:relative;border-radius:2px;"></div>
                     </div>
                     <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -276,15 +387,18 @@ async function unlockVideo(triggerElement) {
                             <input id="k-volume" type="range" min="0" max="1" step="0.01" value="1">
                         </div>
                         <div style="display:flex;align-items:center;gap:15px;">
-                            <select id="k-quality" style="background:rgba(0,0,0,0.5);color:white;border:1px solid #444;border-radius:4px;padding:2px 5px;font-size:12px;cursor:pointer;outline:none;">
-                                <option value="-1">Auto</option>
-                            </select>
+                            <button id="k-update-btn" type="button" title="Open latest update" style="display:none;">${ICONS.update}</button>
+                            <div id="k-quality-wrap">
+                                <button id="k-quality-btn" type="button">Auto ▴</button>
+                                <div id="k-quality-menu"></div>
+                            </div>
                             <button id="k-fs" style="background:none;border:none;cursor:pointer;opacity:0.9;">${ICONS.maximize}</button>
                         </div>
                     </div>
                 </div>
-                <button id="k-big-play" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(0,0,0,0.5);border-radius:50%;border:2px solid #53fc18;color:#53fc18;cursor:pointer;display:none;align-items:center;justify-content:center;">
-                    <svg viewBox="0 0 24 24" style="width:40px;height:40px;fill:#53fc18;margin-left:5px;"><path d="M8 5v14l11-7z"/></svg>
+                <div id="k-seek-indicator" aria-hidden="true"></div>
+                <button id="k-big-play" style="position:absolute;top:50%;left:50%;width:70px;height:70px;background:rgba(7,7,7,0.72);border-radius:50%;border:1px solid rgba(255,255,255,0.18);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                    ${ICONS.bigPlay}
                 </button>
             </div>
         `;
@@ -295,27 +409,62 @@ async function unlockVideo(triggerElement) {
         const controls = videoParent.querySelector('#k-controls');
         const btnPlay = videoParent.querySelector('#k-play');
         const btnFs = videoParent.querySelector('#k-fs');
+        const btnUpdate = videoParent.querySelector('#k-update-btn');
         const btnBig = videoParent.querySelector('#k-big-play');
         const progressBar = videoParent.querySelector('#k-progress');
         const track = videoParent.querySelector('#k-track');
+        const trackTooltip = videoParent.querySelector('#k-track-tooltip');
         const timeDisplay = videoParent.querySelector('#k-time');
-        const qualSel = videoParent.querySelector('#k-quality');
+        const qualWrap = videoParent.querySelector('#k-quality-wrap');
+        const qualBtn = videoParent.querySelector('#k-quality-btn');
+        const qualMenu = videoParent.querySelector('#k-quality-menu');
+        const seekIndicator = videoParent.querySelector('#k-seek-indicator');
 
         const volumeSlider = videoParent.querySelector('#k-volume');
+        const initialVolume = Number.isFinite(savedPlayerSettings.volume) ? savedPlayerSettings.volume : 1;
+        let seekIndicatorTimeout = null;
 
-        document.addEventListener('keydown', (e) => {
-            if (!vid || !isFinite(vid.duration)) return;
+        const showSeekIndicator = (direction) => {
+            seekIndicator.innerHTML = direction === 'forward' ? ICONS.forward : ICONS.backward;
+            seekIndicator.dataset.direction = direction;
+            seekIndicator.classList.remove('visible');
+            void seekIndicator.offsetWidth;
+            seekIndicator.classList.add('visible');
+            clearTimeout(seekIndicatorTimeout);
+            seekIndicatorTimeout = setTimeout(() => {
+                seekIndicator.classList.remove('visible');
+            }, 850);
+        };
 
-            if (e.key === "ArrowRight") {
-                vid.currentTime = Math.min(vid.currentTime + 5, vid.duration);
-            }
-            else if (e.key === "ArrowLeft") {
-                vid.currentTime = Math.max(vid.currentTime - 5, 0);
-            }
+        activePlayerUi = {
+            vid,
+            qualWrap,
+            showSeekIndicator
+        };
+        bindGlobalPlayerListeners();
+
+        volumeSlider.value = String(initialVolume);
+        vid.volume = initialVolume;
+
+        getLatestReleaseInfo().then((release) => {
+            if (!release || !btnUpdate?.isConnected) return;
+
+            btnUpdate.style.display = 'inline-flex';
+            btnUpdate.title = `Update available: ${release.name || release.tagName}`;
+            btnUpdate.addEventListener('click', () => {
+                window.open(release.htmlUrl, '_blank', 'noopener,noreferrer');
+            }, { once: true });
         });
-        
+
+        qualBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            qualWrap.classList.toggle('open');
+        });
+
         volumeSlider.addEventListener('input', () => {
-            vid.volume = volumeSlider.value;
+            const volume = parseFloat(volumeSlider.value);
+            vid.volume = volume;
+            savePlayerSettings(playerSettingsKey, { volume });
         });
 
         chatController.connectVideo(vid);
@@ -324,8 +473,14 @@ async function unlockVideo(triggerElement) {
         vid.addEventListener('click', togglePlay);
         btnPlay.addEventListener('click', togglePlay);
         btnBig.addEventListener('click', togglePlay);
-        vid.addEventListener('play', () => { btnPlay.innerHTML = ICONS.pause; btnBig.style.display = 'none'; });
-        vid.addEventListener('pause', () => { btnPlay.innerHTML = ICONS.play; btnBig.style.display = 'flex'; });
+        vid.addEventListener('play', () => {
+            btnPlay.innerHTML = ICONS.pause;
+            btnBig.classList.remove('visible');
+        });
+        vid.addEventListener('pause', () => {
+            btnPlay.innerHTML = ICONS.play;
+            btnBig.classList.add('visible');
+        });
         let lastSave = 0;
         
         vid.addEventListener('timeupdate', () => {
@@ -347,8 +502,28 @@ async function unlockVideo(triggerElement) {
             const rect = track.getBoundingClientRect();
             if (vid.duration) vid.currentTime = ((e.clientX - rect.left) / rect.width) * vid.duration;
         });
+        track.addEventListener('mousemove', (e) => {
+            if (!isFinite(vid.duration)) return;
+            const rect = track.getBoundingClientRect();
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            const hoverTime = ratio * vid.duration;
+
+            trackTooltip.textContent = formatTime(hoverTime);
+            trackTooltip.style.left = `${ratio * rect.width}px`;
+            trackTooltip.classList.add('visible');
+        });
+        track.addEventListener('mouseenter', () => {
+            if (isFinite(vid.duration)) trackTooltip.classList.add('visible');
+        });
+        track.addEventListener('mouseleave', () => {
+            trackTooltip.classList.remove('visible');
+        });
         pRoot.addEventListener('mouseenter', () => controls.style.opacity = '1');
-        pRoot.addEventListener('mouseleave', () => { if (!vid.paused) controls.style.opacity = '0'; });
+        pRoot.addEventListener('mouseleave', () => {
+            qualWrap.classList.remove('open');
+            trackTooltip.classList.remove('visible');
+            if (!vid.paused) controls.style.opacity = '0';
+        });
         btnFs.addEventListener('click', () => { if (!document.fullscreenElement) pRoot.requestFullscreen(); else document.exitFullscreen(); });
         vid.addEventListener('dblclick', () => btnFs.click());
 
@@ -358,13 +533,62 @@ async function unlockVideo(triggerElement) {
             hls.loadSource(finalUrl);
             hls.attachMedia(vid);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                hls.levels.forEach((lvl, idx) => {
-                    const opt = document.createElement('option');
-                    opt.value = idx; opt.text = lvl.height + 'p';
-                    qualSel.appendChild(opt);
-                });
-                qualSel.onchange = () => hls.currentLevel = parseInt(qualSel.value);
-                vid.play().catch(() => btnBig.style.display = 'flex');
+                const setQuality = (level, label, optionRef = null, qualitySettings = null) => {
+                    hls.currentLevel = level;
+                    qualBtn.textContent = `${label} ▴`;
+                    [...qualMenu.querySelectorAll('.k-quality-option')].forEach((option) => option.classList.remove('active'));
+                    if (optionRef) optionRef.classList.add('active');
+                    if (qualitySettings) savePlayerSettings(playerSettingsKey, { quality: qualitySettings });
+                    qualWrap.classList.remove('open');
+                };
+
+                const addQualityItem = (level, label, qualitySettings, isActive = false) => {
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'k-quality-option';
+                    item.textContent = label;
+                    if (isActive) item.classList.add('active');
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        setQuality(level, label, item, qualitySettings);
+                    });
+                    qualMenu.appendChild(item);
+                    return item;
+                };
+
+                const qualityItems = [];
+                const autoItem = addQualityItem(-1, 'Auto', { mode: 'auto' }, true);
+
+                hls.levels
+                    .map((lvl, idx) => ({ lvl, idx }))
+                    .sort((a, b) => (b.lvl.height || 0) - (a.lvl.height || 0))
+                    .forEach(({ lvl, idx }) => {
+                        qualityItems.push({
+                            height: lvl.height,
+                            level: idx,
+                            label: `${lvl.height}p`,
+                            element: addQualityItem(idx, `${lvl.height}p`, { mode: 'manual', height: lvl.height })
+                        });
+                    });
+
+                const savedQuality = savedPlayerSettings.quality;
+                if (savedQuality?.mode === 'manual') {
+                    const matchedQuality = qualityItems.find((item) => item.height === savedQuality.height);
+                    if (matchedQuality) {
+                        setQuality(
+                            matchedQuality.level,
+                            matchedQuality.label,
+                            matchedQuality.element,
+                            { mode: 'manual', height: matchedQuality.height }
+                        );
+                    } else {
+                        setQuality(-1, 'Auto', autoItem, { mode: 'auto' });
+                    }
+                } else {
+                    setQuality(-1, 'Auto', autoItem, { mode: 'auto' });
+                }
+
+                vid.play().catch(() => btnBig.classList.add('visible'));
             });
             const savedTime = parseFloat(localStorage.getItem(resumeKey));
             
