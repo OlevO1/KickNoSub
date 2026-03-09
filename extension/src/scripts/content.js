@@ -15,7 +15,11 @@ const ICONS = {
     update: `<svg width="98" height="96" viewBox="0 0 98 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;"><g clip-path="url(#clip0_730_27136)"><path d="M41.4395 69.3848C28.8066 67.8535 19.9062 58.7617 19.9062 46.9902C19.9062 42.2051 21.6289 37.0371 24.5 33.5918C23.2559 30.4336 23.4473 23.7344 24.8828 20.959C28.7109 20.4805 33.8789 22.4902 36.9414 25.2656C40.5781 24.1172 44.4062 23.543 49.0957 23.543C53.7852 23.543 57.6133 24.1172 61.0586 25.1699C64.0254 22.4902 69.2891 20.4805 73.1172 20.959C74.457 23.543 74.6484 30.2422 73.4043 33.4961C76.4668 37.1328 78.0937 42.0137 78.0937 46.9902C78.0937 58.7617 69.1934 67.6621 56.3691 69.2891C59.623 71.3945 61.8242 75.9883 61.8242 81.252L61.8242 91.2051C61.8242 94.0762 64.2168 95.7031 67.0879 94.5547C84.4102 87.9512 98 70.6289 98 49.1914C98 22.1074 75.9883 6.69539e-07 48.9043 4.309e-07C21.8203 1.92261e-07 -1.9479e-07 22.1074 -4.3343e-07 49.1914C-6.20631e-07 70.4375 13.4941 88.0469 31.6777 94.6504C34.2617 95.6074 36.75 93.8848 36.75 91.3008L36.75 83.6445C35.4102 84.2188 33.6875 84.6016 32.1562 84.6016C25.8398 84.6016 22.1074 81.1563 19.4277 74.7441C18.375 72.1602 17.2266 70.6289 15.0254 70.3418C13.877 70.2461 13.4941 69.7676 13.4941 69.1934C13.4941 68.0449 15.4082 67.1836 17.3223 67.1836C20.0977 67.1836 22.4902 68.9063 24.9785 72.4473C26.8926 75.2227 28.9023 76.4668 31.2949 76.4668C33.6875 76.4668 35.2187 75.6055 37.4199 73.4043C39.0469 71.7773 40.291 70.3418 41.4395 69.3848Z" fill="white"/></g><defs><clipPath id="clip0_730_27136"><rect width="98" height="96" fill="white"/></clipPath></defs></svg>`,
     bigPlay: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;width:40px;height:40px;"><path fill="none" d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>`,
     backward: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path d="M12 6a2 2 0 0 0-3.414-1.414l-6 6a2 2 0 0 0 0 2.828l6 6A2 2 0 0 0 12 18z"/><path d="M22 6a2 2 0 0 0-3.414-1.414l-6 6a2 2 0 0 0 0 2.828l6 6A2 2 0 0 0 22 18z"/></svg>`,
-    forward: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path d="M12 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 12 18z"/><path d="M2 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 2 18z"/></svg>`
+    forward: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path d="M12 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 12 18z"/><path d="M2 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 2 18z"/></svg>`,
+    volumeHigh: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path fill="none" d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298zM16 9a5 5 0 0 1 0 6m3.364 3.364a9 9 0 0 0 0-12.728"/></svg>`,
+    volumeMedium: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path fill="none" d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298zM16 9a5 5 0 0 1 0 6"/></svg>`,
+    volumeLow: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path fill="none" d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/></svg>`,
+    volumeMute: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:1;"><path fill="none" d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298zM22 9l-6 6m0-6l6 6"/></svg>`
 };
 
 function getResumeKey(channelSlug, videoSlug) {
@@ -308,10 +312,33 @@ function formatTime(seconds) {
     }
 }
 
+function getVolumeIcon(volume) {
+    if (volume <= 0) return ICONS.volumeMute;
+    if (volume < 0.2) return ICONS.volumeLow;
+    if (volume < 0.5) return ICONS.volumeMedium;
+    return ICONS.volumeHigh;
+}
+
 async function unlockVideo(triggerElement) {
     if (isUnlocking) return;
     const container = triggerElement.closest('.relative.flex.flex-col');
     if (!container || container.dataset.kickUnlockerProcessing) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const fallbackMinHeight = Math.max(
+        Math.round(containerRect.height || 0),
+        Math.round((containerRect.width || 0) * 9 / 16),
+        360
+    );
+
+    container.style.width = '100%';
+    container.style.minHeight = `${fallbackMinHeight}px`;
+
+    if (containerRect.width > 0 && containerRect.height > 0) {
+        container.style.aspectRatio = `${containerRect.width} / ${containerRect.height}`;
+    } else {
+        container.style.aspectRatio = '16 / 9';
+    }
 
     if (activeHls) { activeHls.destroy(); activeHls = null; }
 
@@ -321,7 +348,7 @@ async function unlockVideo(triggerElement) {
         // --- STEP 1: FULL WIPE & SPLASH ---
         // Immediately hide everything (including the underlying placeholder) and show our splash screen
         container.innerHTML = `
-            <div style="width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Inter,sans-serif;">
+            <div style="width:100%;height:100%;min-height:${fallbackMinHeight}px;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Inter,sans-serif;">
                 <div style="font-size:24px;font-weight:bold;color:#53fc18;margin-bottom:8px;">🔓 Kick Unlocker</div>
                 <div style="font-size:14px;color:rgba(255,255,255,0.7);">Searching stream...</div>
             </div>
@@ -375,16 +402,25 @@ async function unlockVideo(triggerElement) {
         const playerHTML = `
             <div id="k-player" style="width:100%;height:100%;position:relative;background:black;overflow:hidden;font-family:Inter,sans-serif;">
                 <video id="k-video" playsinline style="width:100%;height:100%;object-fit:contain;"></video>
+                <div id="k-loading" class="visible" aria-hidden="true">
+                    <div class="k-loading-spinner"></div>
+                </div>
                 <div id="k-controls" style="position:absolute;bottom:0;left:0;width:100%;padding:20px 15px 10px 15px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);display:flex;flex-direction:column;opacity:0;transition:opacity 0.2s;">
                     <div id="k-track" style="width:100%;height:5px;padding:8px 0;background:rgba(255,255,255,0.3);background-clip:content-box;box-sizing:content-box;cursor:pointer;position:relative;margin-bottom:4px;border-radius:2px;">
-                        <div id="k-track-tooltip"></div>
+                        <div id="k-track-tooltip">
+                            <div id="k-track-tooltip-time">0:00</div>
+                        </div>
                          <div id="k-progress" style="width:0%;height:100%;background:#53fc18;position:relative;border-radius:2px;"></div>
                     </div>
                     <div style="display:flex;align-items:center;justify-content:space-between;">
                         <div style="display:flex;align-items:center;gap:15px;">
                             <button id="k-play" style="background:none;border:none;cursor:pointer;opacity:0.9;">${ICONS.play}</button>
                             <span id="k-time" style="font-size:13px;color:#ddd;font-variant-numeric:tabular-nums;">0:00 / 0:00</span>
-                            <input id="k-volume" type="range" min="0" max="1" step="0.01" value="1">
+                            <div id="k-volume-wrap">
+                                <button id="k-volume-btn" type="button" aria-label="Mute volume">${ICONS.volumeHigh}</button>
+                                <input id="k-volume" type="range" min="0" max="1" step="0.01" value="1">
+                                <span id="k-volume-value">100%</span>
+                            </div>
                         </div>
                         <div style="display:flex;align-items:center;gap:15px;">
                             <button id="k-update-btn" type="button" title="Open latest update" style="display:none;">${ICONS.update}</button>
@@ -414,15 +450,66 @@ async function unlockVideo(triggerElement) {
         const progressBar = videoParent.querySelector('#k-progress');
         const track = videoParent.querySelector('#k-track');
         const trackTooltip = videoParent.querySelector('#k-track-tooltip');
+        const trackTooltipTime = videoParent.querySelector('#k-track-tooltip-time');
         const timeDisplay = videoParent.querySelector('#k-time');
         const qualWrap = videoParent.querySelector('#k-quality-wrap');
         const qualBtn = videoParent.querySelector('#k-quality-btn');
         const qualMenu = videoParent.querySelector('#k-quality-menu');
         const seekIndicator = videoParent.querySelector('#k-seek-indicator');
+        const loadingOverlay = videoParent.querySelector('#k-loading');
 
+        const volumeWrap = videoParent.querySelector('#k-volume-wrap');
+        const volumeButton = videoParent.querySelector('#k-volume-btn');
         const volumeSlider = videoParent.querySelector('#k-volume');
+        const volumeValue = videoParent.querySelector('#k-volume-value');
         const initialVolume = Number.isFinite(savedPlayerSettings.volume) ? savedPlayerSettings.volume : 1;
         let seekIndicatorTimeout = null;
+        let hasStartedPlayback = false;
+        let loadingStateTimeout = null;
+        let previousVolumeBeforeMute = initialVolume > 0 ? initialVolume : 1;
+
+        const updateVolumeSliderVisual = (volume) => {
+            const percent = Math.max(0, Math.min(100, Math.round(volume * 100)));
+            volumeSlider.style.setProperty('--k-volume-percent', `${percent}%`);
+            volumeValue.textContent = `${percent}%`;
+            volumeButton.innerHTML = getVolumeIcon(volume);
+            volumeButton.setAttribute('aria-label', percent === 0 ? 'Unmute volume' : 'Mute volume');
+            volumeWrap.dataset.muted = percent === 0 ? 'true' : 'false';
+        };
+
+        const applyVolume = (volume, { persist = true } = {}) => {
+            const normalizedVolume = Math.max(0, Math.min(1, Number(volume) || 0));
+            if (normalizedVolume > 0) previousVolumeBeforeMute = normalizedVolume;
+
+            vid.muted = normalizedVolume === 0;
+            vid.volume = normalizedVolume;
+            volumeSlider.value = String(normalizedVolume);
+            updateVolumeSliderVisual(normalizedVolume);
+
+            if (persist) {
+                savePlayerSettings(playerSettingsKey, { volume: normalizedVolume });
+            }
+        };
+
+        const setLoadingState = (isLoading, { immediate = false } = {}) => {
+            clearTimeout(loadingStateTimeout);
+
+            if (!isLoading) {
+                loadingOverlay.classList.remove('visible');
+                return;
+            }
+
+            if (immediate) {
+                loadingOverlay.classList.add('visible');
+                return;
+            }
+
+            loadingStateTimeout = setTimeout(() => {
+                if (!vid.paused && !vid.ended) {
+                    loadingOverlay.classList.add('visible');
+                }
+            }, 250);
+        };
 
         const showSeekIndicator = (direction) => {
             seekIndicator.innerHTML = direction === 'forward' ? ICONS.forward : ICONS.backward;
@@ -443,8 +530,7 @@ async function unlockVideo(triggerElement) {
         };
         bindGlobalPlayerListeners();
 
-        volumeSlider.value = String(initialVolume);
-        vid.volume = initialVolume;
+        applyVolume(initialVolume, { persist: false });
 
         getLatestReleaseInfo().then((release) => {
             if (!release || !btnUpdate?.isConnected) return;
@@ -462,9 +548,17 @@ async function unlockVideo(triggerElement) {
         });
 
         volumeSlider.addEventListener('input', () => {
-            const volume = parseFloat(volumeSlider.value);
-            vid.volume = volume;
-            savePlayerSettings(playerSettingsKey, { volume });
+            applyVolume(parseFloat(volumeSlider.value));
+        });
+
+        volumeButton.addEventListener('click', () => {
+            if (vid.volume <= 0 || vid.muted) {
+                applyVolume(previousVolumeBeforeMute > 0 ? previousVolumeBeforeMute : 1);
+                return;
+            }
+
+            previousVolumeBeforeMute = vid.volume > 0 ? vid.volume : previousVolumeBeforeMute;
+            applyVolume(0);
         });
 
         chatController.connectVideo(vid);
@@ -481,6 +575,29 @@ async function unlockVideo(triggerElement) {
             btnPlay.innerHTML = ICONS.play;
             btnBig.classList.add('visible');
         });
+        vid.addEventListener('playing', () => {
+            hasStartedPlayback = true;
+            setLoadingState(false);
+        });
+        vid.addEventListener('waiting', () => {
+            if (!vid.paused) setLoadingState(true);
+        });
+        vid.addEventListener('seeking', () => {
+            if (hasStartedPlayback) setLoadingState(true);
+        });
+        vid.addEventListener('seeked', () => {
+            if (!vid.paused && vid.readyState >= 3) setLoadingState(false);
+        });
+        vid.addEventListener('canplay', () => {
+            if (!vid.paused && hasStartedPlayback) setLoadingState(false);
+        });
+        vid.addEventListener('stalled', () => {
+            if (!vid.paused) setLoadingState(true);
+        });
+        vid.addEventListener('loadeddata', () => {
+            if (vid.paused && !hasStartedPlayback) setLoadingState(false);
+        });
+        vid.addEventListener('ended', () => setLoadingState(false));
         let lastSave = 0;
         
         vid.addEventListener('timeupdate', () => {
@@ -508,7 +625,7 @@ async function unlockVideo(triggerElement) {
             const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
             const hoverTime = ratio * vid.duration;
 
-            trackTooltip.textContent = formatTime(hoverTime);
+            trackTooltipTime.textContent = formatTime(hoverTime);
             trackTooltip.style.left = `${ratio * rect.width}px`;
             trackTooltip.classList.add('visible');
         });
@@ -532,7 +649,9 @@ async function unlockVideo(triggerElement) {
             activeHls = hls;
             hls.loadSource(finalUrl);
             hls.attachMedia(vid);
+            hls.on(Hls.Events.MANIFEST_LOADING, () => setLoadingState(true, { immediate: true }));
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                setLoadingState(false);
                 const setQuality = (level, label, optionRef = null, qualitySettings = null) => {
                     hls.currentLevel = level;
                     qualBtn.textContent = `${label} ▴`;
@@ -603,6 +722,7 @@ async function unlockVideo(triggerElement) {
             }
 
             hls.on(Hls.Events.ERROR, (e, data) => {
+                if (data.fatal) setLoadingState(false);
                 if (data.fatal) {
                     if (data.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
                     else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
